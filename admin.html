@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrativo | Vital Lab</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="style.css"> <link rel="stylesheet" href="admin.css"> </head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <img src="vitallab.jpg" alt="Logo" width="80" class="rounded-circle mb-3">
+            <h3>Painel da Recepção</h3>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            
+            <div class="col-md-5">
+                <div class="card admin-card shadow-sm h-100">
+                    <div class="card-header bg-dark text-white fw-bold">1. Novo Paciente</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label>Nome Completo</label>
+                            <input type="text" id="cadNome" class="form-control" placeholder="Ex: João da Silva">
+                        </div>
+                        <div class="mb-3">
+                            <label>CPF (Será o Usuário)</label>
+                            <input type="number" id="cadCpf" class="form-control" placeholder="Apenas números">
+                        </div>
+                        <button onclick="cadastrarPaciente()" class="btn btn-danger w-100">Cadastrar Paciente</button>
+                        
+                        <div id="resultadoCadastro" class="result-box mt-3 text-center">
+                            <h5 class="fw-bold text-success"><i class="fas fa-check-circle"></i> Sucesso!</h5>
+                            <p class="mb-1">Anote os dados para o cliente:</p>
+                            <hr>
+                            <div class="fs-5">Usuário: <strong id="resUser">...</strong></div>
+                            <div class="fs-4">Senha: <strong id="resSenha" class="text-danger">...</strong></div>
+                            <div class="small text-muted mt-2">ID do Sistema: <span id="resId">...</span></div>
+                            <button class="btn btn-sm btn-outline-success mt-2" onclick="copiarDados()">Copiar ID</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card admin-card shadow-sm h-100">
+                    <div class="card-header bg-secondary text-white fw-bold">2. Lançar Exame</div>
+                    <div class="card-body">
+                        <div class="alert alert-info small">
+                            <i class="fas fa-info-circle"></i> Use o ID gerado ao lado para vincular o exame.
+                        </div>
+                        <div class="mb-3">
+                            <label>ID do Paciente</label>
+                            <input type="number" id="exameIdPaciente" class="form-control" placeholder="Ex: 50">
+                        </div>
+                        <div class="mb-3">
+                            <label>Nome do Exame</label>
+                            <select id="exameNome" class="form-select">
+                                <option value="Hemograma Completo">Hemograma Completo</option>
+                                <option value="Glicemia em Jejum">Glicemia em Jejum</option>
+                                <option value="Colesterol Total">Colesterol Total</option>
+                                <option value="Urina EAS">Urina EAS</option>
+                                <option value="Teste de Gravidez (Beta HCG)">Teste de Gravidez (Beta HCG)</option>
+                                <option value="Outro">Outro (Editar na Planilha)</option>
+                            </select>
+                        </div>
+                        <button onclick="lancarExame()" class="btn btn-secondary w-100">Adicionar Exame</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
