@@ -7,6 +7,9 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdN
 // ==========================================
 // 1. FUNÇÃO: CADASTRAR PACIENTE
 // ==========================================
+// ==========================================
+// 1. FUNÇÃO: CADASTRAR PACIENTE
+// ==========================================
 async function cadastrarPaciente() {
     const nome = document.getElementById('cadNome').value;
     const cpf = document.getElementById('cadCpf').value;
@@ -16,7 +19,6 @@ async function cadastrarPaciente() {
         return Swal.fire('Atenção', 'Preencha Nome e CPF', 'warning');
     }
 
-    // Mostra carregando
     Swal.fire({ title: 'Cadastrando...', didOpen: () => Swal.showLoading() });
 
     try {
@@ -33,17 +35,28 @@ async function cadastrarPaciente() {
         Swal.close();
 
         if (res.success) {
-            Swal.fire('Sucesso', 'Paciente cadastrado!', 'success');
+            Swal.fire({
+                icon: 'success',
+                title: 'Cadastrado!',
+                text: 'O ID foi enviado para o Bloco 3.',
+                timer: 2000,
+                showConfirmButton: false
+            });
             
-            // Mostra os dados na tela
+            // Mostra os dados gerados
             boxResultado.style.display = 'block';
             document.getElementById('resUser').innerText = cpf;
             document.getElementById('resSenha').innerText = res.senha;
             document.getElementById('resId').innerText = res.id;
             
-            // Limpa os campos
+            // === AUTOMATIZAÇÃO ===
+            // Joga o ID novo direto no campo do Bloco 3
+            document.getElementById('exameIdPaciente').value = res.id;
+            
+            // Limpa o formulário de cadastro
             document.getElementById('cadNome').value = '';
             document.getElementById('cadCpf').value = '';
+            
         } else {
             Swal.fire('Erro', res.message, 'error');
         }
@@ -156,3 +169,4 @@ async function lancarExame() {
         Swal.fire('Erro', 'Falha na conexão.', 'error');
     }
 }
+
