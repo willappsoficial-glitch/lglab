@@ -163,7 +163,7 @@ function logout() {
 
 function pagarPix(nomeExame) {
     // Código PIX fornecido
-    const pixPayload = "123456"; 
+    const pixPayload = "00020126330014BR.GOV.BCB.PIX0111092503854715204000053039865802BR5925Francisco Williano Pereir6009SAO PAULO62140510xS9tq7FMms6304B42F"; 
     
     // Codifica para URL
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(pixPayload)}`;
@@ -206,4 +206,5 @@ function copiarPix() {
     btn.innerText = "Copiado!";
     setTimeout(() => { btn.innerText = originalText; }, 2000);
 }
+
 
