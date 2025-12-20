@@ -126,4 +126,52 @@ function copiarDados() {
             btn.classList.remove('active');
         }, 2000);
     });
+
+}
+
+// ==========================================
+// FUNÇÃO: BUSCAR PACIENTE (NOVA)
+// ==========================================
+async function buscarPaciente() {
+    const termo = document.getElementById('buscaTermo').value;
+    const box = document.getElementById('resultadoBusca');
+
+    if(!termo) return Swal.fire('Erro', 'Digite um nome ou CPF', 'warning');
+
+    Swal.showLoading();
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({ action: 'buscarPaciente', termo: termo })
+        });
+
+        const res = await response.json();
+        Swal.close();
+
+        if(res.success) {
+            box.style.display = 'block';
+            document.getElementById('buscNome').innerText = res.nome;
+            document.getElementById('buscCpf').innerText = res.cpf;
+            document.getElementById('buscId').innerText = res.id;
+        } else {
+            box.style.display = 'none';
+            Swal.fire('Não encontrado', 'Verifique o nome ou CPF.', 'info');
+        }
+
+    } catch (error) {
+        console.error(error);
+        Swal.fire('Erro', 'Falha na conexão.', 'error');
+    }
+}
+
+// Função para jogar o ID encontrado para a caixa de lançamento
+function usarIdEncontrado() {
+    const id = document.getElementById('buscId').innerText;
+    document.getElementById('exameIdPaciente').value = id;
+    
+    // Animação visual para mostrar que funcionou
+    const inputExame = document.getElementById('exameIdPaciente');
+    inputExame.style.backgroundColor = "#d1e7dd"; // Verde claro
+    setTimeout(() => { inputExame.style.backgroundColor = ""; }, 1000);
 }
