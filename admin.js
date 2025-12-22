@@ -1,71 +1,74 @@
 // ==========================================
-// ARQUIVO: admin.js (COMPLETO E ATUALIZADO)
+// ARQUIVO: admin.js (VERSÃO FINAL BLINDADA)
 // ==========================================
 
 // --- 1. FUNÇÃO DE BUSCAR PACIENTE ---
-function cadastrarPaciente() {
-    const nome = document.getElementById('cadNome').value;
-    const cpf = document.getElementById('cadCpf').value;
+function buscarPaciente() {
+    const termo = document.getElementById('buscaTermo').value;
+    const btn = document.querySelector('button[onclick="buscarPaciente()"]');
 
-    // Validação básica
-    if (!nome || !cpf) {
-        Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
+    if (!termo) {
+        Swal.fire('Atenção', 'Digite um CPF ou Nome para buscar.', 'warning');
         return;
     }
 
-    // === MÁGICA DO BLOQUEIO DE TELA ===
-    // Isso abre um popup que não deixa clicar fora e mostra o giratório
-    Swal.fire({
-        title: 'Processando...',
-        text: 'Aguarde enquanto realizamos o cadastro.',
-        allowOutsideClick: false, // Não deixa fechar clicando fora
-        allowEscapeKey: false,    // Não deixa fechar com ESC
-        didOpen: () => {
-            Swal.showLoading(); // Ativa a animação de carregamento
-        }
-    });
-    // ==================================
+    // Feedback visual (Trava botão)
+    const textoOriginal = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
 
     google.script.run
         .withSuccessHandler(function(res) {
-            // Quando o Google responde, o Swal de sucesso SUBSTITUI o de carregamento automaticamente
-            
-            if (res.success) {
-                // Preenche os dados na tela
-                document.getElementById('resUser').innerText = res.id;
-                document.getElementById('resSenha').innerText = res.senha;
-                document.getElementById('resId').innerText = res.id;
-                document.getElementById('resultadoCadastro').style.display = 'block';
-                
-                document.getElementById('exameIdPaciente').value = res.id;
+            // Destrava botão
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
 
-                // Limpa campos
-                document.getElementById('cadNome').value = '';
-                document.getElementById('cadCpf').value = '';
+            if (res.success) {
+                // Preenche o Bloco 2 (Resultado da Busca)
+                document.getElementById('buscNome').innerText = res.nome;
+                document.getElementById('buscCpf').innerText = res.cpf; // Mostra CPF com zero
+                document.getElementById('buscId').innerText = res.id;
                 
-                // Mensagem de Sucesso
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Sucesso!',
-                    text: 'Paciente cadastrado com ID ' + res.id,
-                    timer: 3000, // Fecha sozinho em 3 segundos (opcional)
-                    showConfirmButton: true
-                });
+                // Mostra a caixa de resultado
+                document.getElementById('resultadoBusca').style.display = 'block';
 
             } else {
-                Swal.fire('Erro', res.message, 'error');
+                Swal.fire('Não encontrado', res.message, 'info');
+                document.getElementById('resultadoBusca').style.display = 'none';
             }
         })
         .withFailureHandler(function(erro) {
-            Swal.fire('Erro Fatal', 'Falha na comunicação com o servidor.', 'error');
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
+            Swal.fire('Erro', 'Falha ao buscar paciente.', 'error');
         })
-        .cadastrarPaciente(nome, cpf);
+        .buscarPaciente(termo);
 }
-// --- 2. FUNÇÃO DE CADASTRAR PACIENTE (COM A PROTEÇÃO DE LOOP) ---
+
+// --- FUNÇÃO AUXILIAR: BOTÃO "USAR ID" ---
+function usarIdEncontrado() {
+    const idEncontrado = document.getElementById('buscId').innerText;
+    if (idEncontrado && idEncontrado !== "...") {
+        document.getElementById('exameIdPaciente').value = idEncontrado;
+        // Foca no campo de nome do exame
+        document.getElementById('exameNome').focus();
+        // Feedback visual
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'ID ' + idEncontrado + ' selecionado!',
+            showConfirmButton: false,
+            timer: 1500,
+            toast: true
+        });
+    }
+}
+
+// --- 2. FUNÇÃO DE CADASTRAR PACIENTE (BLINDADA) ---
 function cadastrarPaciente() {
     const nome = document.getElementById('cadNome').value;
     const cpf = document.getElementById('cadCpf').value;
-    const btn = document.getElementById('btnCadastrar'); // Certifique-se que o botão tem id="btnCadastrar"
+    const btn = document.getElementById('btnCadastrar');
 
     // Validação
     if (!nome || !cpf) {
@@ -73,7 +76,7 @@ function cadastrarPaciente() {
         return;
     }
 
-    // === TRAVA TELA (Para evitar clique duplo) ===
+    // === TRAVA TELA (Para evitar clique duplo e ansiedade) ===
     if (btn) btn.disabled = true;
 
     Swal.fire({
@@ -87,16 +90,18 @@ function cadastrarPaciente() {
 
     google.script.run
         .withSuccessHandler(function(res) {
-            // === DESTRAVA O BOTÃO ===
+            // === DESTRAVA O BOTÃO (IMPORTANTE) ===
             if (btn) btn.disabled = false;
 
             if (res.success) {
-                // Preenche os dados no Bloco 3
-                document.getElementById('resUser').innerText = res.cpf || cpf; 
+                // Preenche os dados no Bloco 1 (Resultado)
+                document.getElementById('resUser').innerText = res.cpf || cpf; // Garante visualização
                 document.getElementById('resSenha').innerText = res.senha;
                 document.getElementById('resId').innerText = res.id;
                 
                 document.getElementById('resultadoCadastro').style.display = 'block';
+                
+                // Já manda o ID para o Bloco 3 (Lançar Exame)
                 document.getElementById('exameIdPaciente').value = res.id;
 
                 // Limpa os campos de cadastro
@@ -107,9 +112,9 @@ function cadastrarPaciente() {
                 Swal.fire({
                     icon: 'success',
                     title: 'Cadastrado!',
-                    text: 'Paciente salvo com sucesso.',
-                    timer: 2000,
-                    showConfirmButton: false
+                    text: 'ID Gerado: ' + res.id,
+                    timer: 3000,
+                    showConfirmButton: true
                 });
 
             } else {
@@ -145,7 +150,7 @@ function lancarExame() {
     btn.disabled = true;
 
     const dados = {
-        action: 'salvarExame', // Importante para o novo doPost
+        action: 'salvarExame', 
         idPaciente: idPaciente,
         nomeExame: nomeExame
     };
@@ -157,8 +162,8 @@ function lancarExame() {
 
             if (res.success) {
                 Swal.fire('Sucesso', 'Exame lançado para o paciente!', 'success');
-                // Limpa só o campo do exame
-                document.getElementById('exameNome').value = ''; 
+                // Limpa só o campo do exame para facilitar lançar outro pro mesmo paciente
+                // document.getElementById('exameNome').value = ''; 
             } else {
                 Swal.fire('Erro', 'Não foi possível salvar.', 'error');
             }
@@ -170,4 +175,3 @@ function lancarExame() {
         })
         .salvarExame(dados);
 }
-
