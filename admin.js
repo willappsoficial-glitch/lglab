@@ -1,9 +1,12 @@
 // ==========================================
-// ARQUIVO: admin.js (VERSÃO FINAL BLINDADA)
+// ARQUIVO: admin.js (CORRIGIDO PARA USO EXTERNO)
 // ==========================================
 
+// COLE AQUI A MESMA URL QUE ESTÁ NO SEU SCRIPT.JS
+const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdNPjaNIW7TEWM-rq9UdVh343htO3rb2GL8mVD1PDlaCcz77Q/exec";
+
 // --- 1. FUNÇÃO DE BUSCAR PACIENTE ---
-function buscarPaciente() {
+async function buscarPaciente() {
     const termo = document.getElementById('buscaTermo').value;
     const btn = document.querySelector('button[onclick="buscarPaciente()"]');
 
@@ -12,37 +15,42 @@ function buscarPaciente() {
         return;
     }
 
-    // Feedback visual (Trava botão)
+    // Feedback visual
     const textoOriginal = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     btn.disabled = true;
 
-    google.script.run
-        .withSuccessHandler(function(res) {
-            // Destrava botão
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'buscarPaciente',
+                termo: termo
+            })
+        });
 
-            if (res.success) {
-                // Preenche o Bloco 2 (Resultado da Busca)
-                document.getElementById('buscNome').innerText = res.nome;
-                document.getElementById('buscCpf').innerText = res.cpf; // Mostra CPF com zero
-                document.getElementById('buscId').innerText = res.id;
-                
-                // Mostra a caixa de resultado
-                document.getElementById('resultadoBusca').style.display = 'block';
+        const res = await response.json();
 
-            } else {
-                Swal.fire('Não encontrado', res.message, 'info');
-                document.getElementById('resultadoBusca').style.display = 'none';
-            }
-        })
-        .withFailureHandler(function(erro) {
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-            Swal.fire('Erro', 'Falha ao buscar paciente.', 'error');
-        })
-        .buscarPaciente(termo);
+        // Destrava botão
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+
+        if (res.success) {
+            document.getElementById('buscNome').innerText = res.nome;
+            document.getElementById('buscCpf').innerText = res.cpf;
+            document.getElementById('buscId').innerText = res.id;
+            document.getElementById('resultadoBusca').style.display = 'block';
+        } else {
+            Swal.fire('Não encontrado', res.message || 'Paciente não localizado.', 'info');
+            document.getElementById('resultadoBusca').style.display = 'none';
+        }
+
+    } catch (error) {
+        console.error(error);
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+        Swal.fire('Erro', 'Falha de conexão com o servidor.', 'error');
+    }
 }
 
 // --- FUNÇÃO AUXILIAR: BOTÃO "USAR ID" ---
@@ -50,33 +58,39 @@ function usarIdEncontrado() {
     const idEncontrado = document.getElementById('buscId').innerText;
     if (idEncontrado && idEncontrado !== "...") {
         document.getElementById('exameIdPaciente').value = idEncontrado;
-        // Foca no campo de nome do exame
         document.getElementById('exameNome').focus();
-        // Feedback visual
-        Swal.fire({
+        
+        const Toast = Swal.mixin({
+            toast: true,
             position: 'top-end',
-            icon: 'success',
-            title: 'ID ' + idEncontrado + ' selecionado!',
             showConfirmButton: false,
-            timer: 1500,
-            toast: true
+            timer: 2000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        });
+          
+        Toast.fire({
+            icon: 'success',
+            title: 'ID ' + idEncontrado + ' selecionado!'
         });
     }
 }
 
-// --- 2. FUNÇÃO DE CADASTRAR PACIENTE (BLINDADA) ---
-function cadastrarPaciente() {
+// --- 2. FUNÇÃO DE CADASTRAR PACIENTE ---
+async function cadastrarPaciente() {
     const nome = document.getElementById('cadNome').value;
     const cpf = document.getElementById('cadCpf').value;
     const btn = document.getElementById('btnCadastrar');
 
-    // Validação
     if (!nome || !cpf) {
         Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
         return;
     }
 
-    // === TRAVA TELA (Para evitar clique duplo e ansiedade) ===
+    // Trava Tela
     if (btn) btn.disabled = true;
 
     Swal.fire({
@@ -88,59 +102,65 @@ function cadastrarPaciente() {
         didOpen: () => { Swal.showLoading(); }
     });
 
-    google.script.run
-        .withSuccessHandler(function(res) {
-            // === DESTRAVA O BOTÃO (IMPORTANTE) ===
-            if (btn) btn.disabled = false;
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'cadastrarPaciente',
+                nome: nome,
+                cpf: cpf
+            })
+        });
 
-            if (res.success) {
-                // Preenche os dados no Bloco 1 (Resultado)
-                document.getElementById('resUser').innerText = res.cpf || cpf; // Garante visualização
-                document.getElementById('resSenha').innerText = res.senha;
-                document.getElementById('resId').innerText = res.id;
-                
-                document.getElementById('resultadoCadastro').style.display = 'block';
-                
-                // Já manda o ID para o Bloco 3 (Lançar Exame)
-                document.getElementById('exameIdPaciente').value = res.id;
+        const res = await response.json();
 
-                // Limpa os campos de cadastro
-                document.getElementById('cadNome').value = '';
-                document.getElementById('cadCpf').value = '';
+        // Destrava botão
+        if (btn) btn.disabled = false;
 
-                // Sucesso
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Cadastrado!',
-                    text: 'ID Gerado: ' + res.id,
-                    timer: 3000,
-                    showConfirmButton: true
-                });
+        if (res.success) {
+            // Sucesso
+            document.getElementById('resUser').innerText = res.cpf || cpf;
+            document.getElementById('resSenha').innerText = res.senha;
+            document.getElementById('resId').innerText = res.id;
+            
+            document.getElementById('resultadoCadastro').style.display = 'block';
+            document.getElementById('exameIdPaciente').value = res.id;
 
-            } else {
-                Swal.fire('Erro', res.message, 'error');
-            }
-        })
-        .withFailureHandler(function(erro) {
-            // Em caso de falha na internet, destrava o botão
-            if (btn) btn.disabled = false;
-            Swal.fire('Erro Fatal', 'Não foi possível conectar ao servidor.', 'error');
-        })
-        .cadastrarPaciente(nome, cpf);
+            // Limpa campos
+            document.getElementById('cadNome').value = '';
+            document.getElementById('cadCpf').value = '';
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cadastrado!',
+                text: 'ID Gerado: ' + res.id,
+                timer: 3000,
+                showConfirmButton: true
+            });
+
+        } else {
+            Swal.fire('Erro', res.message || 'Erro ao cadastrar.', 'error');
+        }
+
+    } catch (error) {
+        console.error(error);
+        if (btn) btn.disabled = false;
+        Swal.fire('Erro Fatal', 'Não foi possível conectar ao servidor.', 'error');
+    }
 }
 
 // --- 3. FUNÇÃO DE LANÇAR EXAME ---
-function lancarExame() {
+async function lancarExame() {
     const idPaciente = document.getElementById('exameIdPaciente').value;
     const nomeExame = document.getElementById('exameNome').value;
     const btn = document.querySelector('button[onclick="lancarExame()"]');
 
-    if (!idPaciente) {
-        Swal.fire('Erro', 'Nenhum paciente selecionado. Busque ou cadastre um antes.', 'error');
+    if (!idPaciente || idPaciente == "0") {
+        Swal.fire('Erro', 'Nenhum paciente selecionado.', 'error');
         return;
     }
     if (!nomeExame) {
-        Swal.fire('Atenção', 'Selecione ou digite o nome do exame.', 'warning');
+        Swal.fire('Atenção', 'Selecione o nome do exame.', 'warning');
         return;
     }
 
@@ -149,29 +169,31 @@ function lancarExame() {
     btn.innerHTML = 'Lançando...';
     btn.disabled = true;
 
-    const dados = {
-        action: 'salvarExame', 
-        idPaciente: idPaciente,
-        nomeExame: nomeExame
-    };
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            body: JSON.stringify({
+                action: 'salvarExame', 
+                idPaciente: idPaciente,
+                nomeExame: nomeExame
+            })
+        });
 
-    google.script.run
-        .withSuccessHandler(function(res) {
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
+        const res = await response.json();
 
-            if (res.success) {
-                Swal.fire('Sucesso', 'Exame lançado para o paciente!', 'success');
-                // Limpa só o campo do exame para facilitar lançar outro pro mesmo paciente
-                // document.getElementById('exameNome').value = ''; 
-            } else {
-                Swal.fire('Erro', 'Não foi possível salvar.', 'error');
-            }
-        })
-        .withFailureHandler(function(erro) {
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-            Swal.fire('Erro', 'Falha de conexão.', 'error');
-        })
-        .salvarExame(dados);
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+
+        if (res.success) {
+            Swal.fire('Sucesso', 'Exame lançado com sucesso!', 'success');
+        } else {
+            Swal.fire('Erro', 'Não foi possível salvar o exame.', 'error');
+        }
+
+    } catch (error) {
+        console.error(error);
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+        Swal.fire('Erro', 'Falha de conexão.', 'error');
+    }
 }
