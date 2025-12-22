@@ -156,17 +156,28 @@ function renderizarTabela(exames, elementoTabela) {
             : "background-color: #dc3545 !important; color: white !important;";
 
         // Botões
+        // ... (parte anterior do código)
+
+        // Botões
         if (pagamentoNormalizado === 'pendente') {
             acao = `<button onclick="pagarPix('${ex.nome}')" class="btn btn-sm btn-danger shadow-sm"><i class="fas fa-qrcode me-1"></i> Pagar</button>`;
+        
         } else if (pagamentoNormalizado === 'pago') {
-            if(temLink) {
+            
+            // AQUI ESTAVA O DETALHE: Adicionamos a verificação do status 'pronto'
+            // O paciente só baixa se tiver link E o status for 'pronto'
+            if(temLink && statusParaComparar === 'pronto') {
                  acao = `<a href="${ex.link}" target="_blank" class="btn btn-sm btn-success shadow-sm"><i class="fas fa-download me-1"></i> PDF</a>`;
             } else {
+                 // Caso tenha link mas o status não seja pronto, ou não tenha link
                  acao = `<span class="text-muted small"><i class="fas fa-hourglass-half"></i> Aguarde</span>`;
             }
+
         } else {
             acao = `<span class="text-muted small"><i class="fas fa-hourglass-half"></i> Aguarde</span>`;
         }
+        
+        // ... (restante do código)
 
         html += `
             <tr>
@@ -239,6 +250,7 @@ function copiarPix() {
     btn.innerText = "Copiado!";
     setTimeout(() => { btn.innerText = originalText; }, 2000);
 }
+
 
 
 
