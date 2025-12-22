@@ -117,18 +117,26 @@ function renderizarTabela(exames, elementoTabela) {
     exames.forEach(ex => {
         let acao = '';
         
-        // --- 1. TRATAMENTO DA DATA (NOVO) ---
-        let dataExibicao = ex.data;
-        // Se a data tiver o "T" de Timezone (ex: 2025-12-22T03:00...), vamos formatar
-        if (ex.data && String(ex.data).includes('T')) {
+        // === 1. FORMATAÇÃO DE DATA (FORÇADA) ===
+        // Pega o valor original
+        let dataExibicao = ex.data; 
+        
+        // Tenta converter para DD/MM/AAAA independente do formato que veio
+        try {
             let dataObj = new Date(ex.data);
-            // Pega o dia, mês e ano em UTC para não dar erro de fuso horário (-3h)
-            let dia = String(dataObj.getUTCDate()).padStart(2, '0');
-            let mes = String(dataObj.getUTCMonth() + 1).padStart(2, '0'); // Mês começa em 0 no JS
-            let ano = dataObj.getUTCFullYear();
-            dataExibicao = `${dia}/${mes}/${ano}`;
+            // Verifica se é uma data válida antes de formatar
+            if (!isNaN(dataObj.getTime())) {
+                // getUTCDate garante que pegamos o dia certo, sem voltar 1 dia por fuso horário
+                let dia = String(dataObj.getUTCDate()).padStart(2, '0');
+                let mes = String(dataObj.getUTCMonth() + 1).padStart(2, '0');
+                let ano = dataObj.getUTCFullYear();
+                dataExibicao = `${dia}/${mes}/${ano}`;
+            }
+        } catch (erro) {
+            console.log("Erro ao formatar data:", erro);
+            // Se der erro, mantém o original
         }
-        // ------------------------------------
+        // =======================================
 
         // Normaliza textos
         let statusTexto = ex.status ? String(ex.status).trim() : "";
@@ -137,7 +145,7 @@ function renderizarTabela(exames, elementoTabela) {
         let temLink = ex.link && ex.link.length > 10;
         
         // Cores
-        let corBg = "#fd7e14"; // Laranja (Padrão)
+        let corBg = "#fd7e14"; // Laranja
         if (statusParaComparar === 'pronto') {
             corBg = "#198754"; // Verde
         }
@@ -231,6 +239,7 @@ function copiarPix() {
     btn.innerText = "Copiado!";
     setTimeout(() => { btn.innerText = originalText; }, 2000);
 }
+
 
 
 
