@@ -7,64 +7,60 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdN
 // 1. CADASTRAR PACIENTE
 // ==========================================
 function cadastrarPaciente() {
-    // Pegamos os valores dos campos
     const nome = document.getElementById('cadNome').value;
     const cpf = document.getElementById('cadCpf').value;
-    
-    // === MÁGICA VISUAL PARTE 1 (TRAVAR) ===
-    const btn = document.getElementById('btnCadastrar'); // Pega o botão pelo ID
-    const textoOriginal = btn.innerHTML; // Guarda o texto "Cadastrar" na memória
-    
-    // Muda o texto para "Salvando..." com um ícone girando
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
-    // Desabilita o clique (fica cinza)
-    btn.disabled = true; 
-    // ======================================
 
-    // Validação simples
+    // Validação básica
     if (!nome || !cpf) {
-        Swal.fire('Erro', 'Preencha todos os campos!', 'error');
-        
-        // Se deu erro, temos que destravar o botão senão ele fica travado pra sempre
-        btn.innerHTML = textoOriginal;
-        btn.disabled = false;
+        Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
         return;
     }
 
-    // Chama o Google Apps Script
+    // === MÁGICA DO BLOQUEIO DE TELA ===
+    // Isso abre um popup que não deixa clicar fora e mostra o giratório
+    Swal.fire({
+        title: 'Processando...',
+        text: 'Aguarde enquanto realizamos o cadastro.',
+        allowOutsideClick: false, // Não deixa fechar clicando fora
+        allowEscapeKey: false,    // Não deixa fechar com ESC
+        didOpen: () => {
+            Swal.showLoading(); // Ativa a animação de carregamento
+        }
+    });
+    // ==================================
+
     google.script.run
         .withSuccessHandler(function(res) {
+            // Quando o Google responde, o Swal de sucesso SUBSTITUI o de carregamento automaticamente
             
-            // === MÁGICA VISUAL PARTE 2 (DESTRAVAR) ===
-            // O Google respondeu! Vamos voltar o botão ao normal.
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-            // =========================================
-
             if (res.success) {
-                // Preenche os campos do Bloco 3 (Resultado)
-                document.getElementById('resUser').innerText = res.id; // Mostra o ID/User
+                // Preenche os dados na tela
+                document.getElementById('resUser').innerText = res.id;
                 document.getElementById('resSenha').innerText = res.senha;
                 document.getElementById('resId').innerText = res.id;
                 document.getElementById('resultadoCadastro').style.display = 'block';
                 
-                // Preenche automaticamente o campo do Bloco 3 (Lançar Exame)
                 document.getElementById('exameIdPaciente').value = res.id;
 
-                // Limpa os campos de cadastro
+                // Limpa campos
                 document.getElementById('cadNome').value = '';
                 document.getElementById('cadCpf').value = '';
                 
-                Swal.fire('Sucesso', 'Paciente cadastrado!', 'success');
+                // Mensagem de Sucesso
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Paciente cadastrado com ID ' + res.id,
+                    timer: 3000, // Fecha sozinho em 3 segundos (opcional)
+                    showConfirmButton: true
+                });
+
             } else {
                 Swal.fire('Erro', res.message, 'error');
             }
         })
         .withFailureHandler(function(erro) {
-            // Se der erro de conexão, também temos que destravar
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-            Swal.fire('Erro Fatal', 'Falha na comunicação.', 'error');
+            Swal.fire('Erro Fatal', 'Falha na comunicação com o servidor.', 'error');
         })
         .cadastrarPaciente(nome, cpf);
 }
@@ -154,4 +150,5 @@ async function lancarExame() {
         Swal.fire('Erro', 'Falha na conexão.', 'error');
     }
 }
+
 
