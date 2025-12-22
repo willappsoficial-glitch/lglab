@@ -3,60 +3,64 @@
 // ==========================================
 
 // --- 1. FUNÇÃO DE BUSCAR PACIENTE ---
-function buscarPaciente() {
-    const termo = document.getElementById('buscaTermo').value;
-    const btn = document.querySelector('button[onclick="buscarPaciente()"]');
+function cadastrarPaciente() {
+    const nome = document.getElementById('cadNome').value;
+    const cpf = document.getElementById('cadCpf').value;
 
-    if (!termo) {
-        Swal.fire('Atenção', 'Digite um CPF ou Nome para buscar.', 'warning');
+    // Validação básica
+    if (!nome || !cpf) {
+        Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
         return;
     }
 
-    // Feedback visual
-    const textoOriginal = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    btn.disabled = true;
+    // === MÁGICA DO BLOQUEIO DE TELA ===
+    // Isso abre um popup que não deixa clicar fora e mostra o giratório
+    Swal.fire({
+        title: 'Processando...',
+        text: 'Aguarde enquanto realizamos o cadastro.',
+        allowOutsideClick: false, // Não deixa fechar clicando fora
+        allowEscapeKey: false,    // Não deixa fechar com ESC
+        didOpen: () => {
+            Swal.showLoading(); // Ativa a animação de carregamento
+        }
+    });
+    // ==================================
 
     google.script.run
         .withSuccessHandler(function(res) {
-            // Restaura botão
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-
+            // Quando o Google responde, o Swal de sucesso SUBSTITUI o de carregamento automaticamente
+            
             if (res.success) {
-                // Preenche o Bloco 3 (Resultado)
-                document.getElementById('resUser').innerText = res.cpf; // Mostra CPF com zero
-                document.getElementById('resSenha').innerText = res.cpf.substring(0, 4); // Senha derivada
+                // Preenche os dados na tela
+                document.getElementById('resUser').innerText = res.id;
+                document.getElementById('resSenha').innerText = res.senha;
                 document.getElementById('resId').innerText = res.id;
-                
-                // Preenche o input oculto para lançar exames
-                document.getElementById('exameIdPaciente').value = res.id;
-                
-                // Mostra o bloco
                 document.getElementById('resultadoCadastro').style.display = 'block';
                 
-                // Feedback discreto
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
+                document.getElementById('exameIdPaciente').value = res.id;
+
+                // Limpa campos
+                document.getElementById('cadNome').value = '';
+                document.getElementById('cadCpf').value = '';
+                
+                // Mensagem de Sucesso
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Sucesso!',
+                    text: 'Paciente cadastrado com ID ' + res.id,
+                    timer: 3000, // Fecha sozinho em 3 segundos (opcional)
+                    showConfirmButton: true
                 });
-                Toast.fire({ icon: 'success', title: 'Paciente encontrado: ' + res.nome });
 
             } else {
-                Swal.fire('Não encontrado', res.message, 'info');
-                document.getElementById('resultadoCadastro').style.display = 'none';
+                Swal.fire('Erro', res.message, 'error');
             }
         })
         .withFailureHandler(function(erro) {
-            btn.innerHTML = textoOriginal;
-            btn.disabled = false;
-            Swal.fire('Erro', 'Falha ao buscar paciente.', 'error');
+            Swal.fire('Erro Fatal', 'Falha na comunicação com o servidor.', 'error');
         })
-        .buscarPaciente(termo);
+        .cadastrarPaciente(nome, cpf);
 }
-
 // --- 2. FUNÇÃO DE CADASTRAR PACIENTE (COM A PROTEÇÃO DE LOOP) ---
 function cadastrarPaciente() {
     const nome = document.getElementById('cadNome').value;
@@ -166,3 +170,4 @@ function lancarExame() {
         })
         .salvarExame(dados);
 }
+
