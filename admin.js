@@ -6,65 +6,68 @@ const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdN
 // ==========================================
 // 1. CADASTRAR PACIENTE
 // ==========================================
-async function cadastrarPaciente() {
+function cadastrarPaciente() {
+    // Pegamos os valores dos campos
     const nome = document.getElementById('cadNome').value;
     const cpf = document.getElementById('cadCpf').value;
-    const boxResultado = document.getElementById('resultadoCadastro');
+    
+    // === MÁGICA VISUAL PARTE 1 (TRAVAR) ===
+    const btn = document.getElementById('btnCadastrar'); // Pega o botão pelo ID
+    const textoOriginal = btn.innerHTML; // Guarda o texto "Cadastrar" na memória
+    
+    // Muda o texto para "Salvando..." com um ícone girando
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
+    // Desabilita o clique (fica cinza)
+    btn.disabled = true; 
+    // ======================================
 
-    if (!nome || !cpf) return Swal.fire('Atenção', 'Preencha Nome e CPF', 'warning');
-
-    Swal.fire({ title: 'Cadastrando...', didOpen: () => Swal.showLoading() });
-
-    try {
-        const response = await fetch(API_URL, {
-            method: 'POST',
-            body: JSON.stringify({ action: 'cadastrarPaciente', nome: nome, cpf: cpf })
-        });
-
-        const res = await response.json();
-        Swal.close();
-
-        if (res.success) {
-            Swal.fire({
-                icon: 'success',
-                title: 'Cadastrado!',
-                text: 'ID enviado para o Bloco 3.',
-                timer: 1500,
-                showConfirmButton: false
-            });
-            
-            // Mostra no Bloco 1
-            boxResultado.style.display = 'block';
-            document.getElementById('resUser').innerText = cpf;
-            document.getElementById('resSenha').innerText = res.senha;
-            document.getElementById('resId').innerText = res.id;
-            
-            // === JOGA O ID PARA O BLOCO 3 ===
-            const inputBloco3 = document.getElementById('exameIdPaciente');
-            if(inputBloco3) {
-                inputBloco3.value = res.id;
-                // Animação visual (Pisca Verde)
-                inputBloco3.style.backgroundColor = "#198754"; 
-                inputBloco3.style.color = "#fff";
-                inputBloco3.style.transition = "0.5s";
-                setTimeout(() => { 
-                    inputBloco3.style.backgroundColor = "#e8f5e9"; 
-                    inputBloco3.style.color = "#000"; 
-                }, 1000);
-            }
-
-            // Limpa Bloco 1
-            document.getElementById('cadNome').value = '';
-            document.getElementById('cadCpf').value = '';
-        } else {
-            Swal.fire('Erro', res.message, 'error');
-        }
-    } catch (error) {
-        console.error(error);
-        Swal.fire('Erro', 'Falha na conexão.', 'error');
+    // Validação simples
+    if (!nome || !cpf) {
+        Swal.fire('Erro', 'Preencha todos os campos!', 'error');
+        
+        // Se deu erro, temos que destravar o botão senão ele fica travado pra sempre
+        btn.innerHTML = textoOriginal;
+        btn.disabled = false;
+        return;
     }
-}
 
+    // Chama o Google Apps Script
+    google.script.run
+        .withSuccessHandler(function(res) {
+            
+            // === MÁGICA VISUAL PARTE 2 (DESTRAVAR) ===
+            // O Google respondeu! Vamos voltar o botão ao normal.
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
+            // =========================================
+
+            if (res.success) {
+                // Preenche os campos do Bloco 3 (Resultado)
+                document.getElementById('resUser').innerText = res.id; // Mostra o ID/User
+                document.getElementById('resSenha').innerText = res.senha;
+                document.getElementById('resId').innerText = res.id;
+                document.getElementById('resultadoCadastro').style.display = 'block';
+                
+                // Preenche automaticamente o campo do Bloco 3 (Lançar Exame)
+                document.getElementById('exameIdPaciente').value = res.id;
+
+                // Limpa os campos de cadastro
+                document.getElementById('cadNome').value = '';
+                document.getElementById('cadCpf').value = '';
+                
+                Swal.fire('Sucesso', 'Paciente cadastrado!', 'success');
+            } else {
+                Swal.fire('Erro', res.message, 'error');
+            }
+        })
+        .withFailureHandler(function(erro) {
+            // Se der erro de conexão, também temos que destravar
+            btn.innerHTML = textoOriginal;
+            btn.disabled = false;
+            Swal.fire('Erro Fatal', 'Falha na comunicação.', 'error');
+        })
+        .cadastrarPaciente(nome, cpf);
+}
 // ==========================================
 // 2. BUSCAR PACIENTE
 // ==========================================
@@ -151,3 +154,4 @@ async function lancarExame() {
         Swal.fire('Erro', 'Falha na conexão.', 'error');
     }
 }
+
