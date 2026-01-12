@@ -1,9 +1,12 @@
 /* ============================================================
-   1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS
+   1. CONFIGURAÇÕES GLOBAIS E VARIÁVEIS (NOVA IDENTIDADE LG LAB)
    ============================================================ */
 :root {
-    --primary-red: #cc0000;
-    --dark-red: #a30000;
+    /* Paleta LG Lab */
+    --primary-blue: #21409a; /* Azul Escuro da Logo */
+    --primary-green: #9cca3b; /* Verde da Logo */
+    --dark-blue: #1a327a;
+    
     --dark-gray: #1a1a1a;
     --medium-gray: #4a4a4a;
     --light-gray: #f8f9fa;
@@ -28,7 +31,8 @@ body {
    ============================================================ */
 .hero-section {
     height: 85vh;
-    background: linear-gradient(rgba(204, 0, 0, 0.7), rgba(0, 0, 0, 0.8)), 
+    /* Gradiente Azul para Preto/Transparente */
+    background: linear-gradient(rgba(33, 64, 154, 0.85), rgba(0, 0, 0, 0.7)), 
                 url('https://images.unsplash.com/photo-1579152276503-3151b238324d?auto=format&fit=crop&w=1350&q=80');
     background-size: cover;
     background-position: center;
@@ -37,6 +41,8 @@ body {
 }
 
 .btn-resultado {
+    background-color: var(--primary-green); /* Botão Verde destaque */
+    color: #fff;
     border-radius: 50px;
     padding: 12px 30px;
     font-weight: 700;
@@ -44,6 +50,14 @@ body {
     font-size: 0.85rem;
     letter-spacing: 1px;
     transition: all 0.3s;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-resultado:hover {
+    background-color: var(--primary-blue);
+    color: white;
+    transform: translateY(-2px);
 }
 
 .card-exame {
@@ -55,11 +69,12 @@ body {
 .card-exame:hover {
     transform: translateY(-10px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    background: var(--primary-red);
+    background: var(--primary-blue); /* Fundo Azul ao passar o mouse */
     color: white;
 }
 
-.card-exame:hover .text-danger, 
+/* Ajuste dos ícones e textos no hover */
+.card-exame:hover h4,
 .card-exame:hover .icon-box i {
     color: white !important;
 }
@@ -67,7 +82,7 @@ body {
 .icon-box {
     width: 70px;
     height: 70px;
-    background: #fff0f0;
+    background: #eef2ff; /* Fundo azul bem clarinho */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,10 +91,14 @@ body {
     transition: 0.3s;
 }
 
+.icon-box i {
+    color: var(--primary-blue); /* Ícones azuis por padrão */
+}
+
 /* ============================================================
    3. TELA DE LOGIN (login.html)
    ============================================================ */
-.login-body { /* Aplicar esta classe no body apenas no login.html se desejar centralizar */
+.login-body {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,16 +113,15 @@ body {
     width: 100%;
     max-width: 400px;
     text-align: center;
-    margin: 50px auto; /* Para quando não estiver centralizado pelo flex */
+    margin: 50px auto;
 }
 
 .logo {
-    width: 120px;
-    height: 120px;
+    width: 130px; 
+    height: auto;
     object-fit: contain;
     margin-bottom: 1rem;
-    border-radius: 50%;
-    border: 3px solid var(--primary-red);
+    /* Removi a borda vermelha que tinha antes */
     padding: 5px;
 }
 
@@ -117,6 +135,7 @@ body {
     font-weight: 700;
     margin-bottom: 5px;
     display: block;
+    color: var(--primary-blue); /* Label Azul */
 }
 
 input[type="text"], input[type="password"] {
@@ -128,12 +147,12 @@ input[type="text"], input[type="password"] {
 }
 
 input:focus {
-    border-color: var(--primary-red);
+    border-color: var(--primary-blue); /* Borda Azul ao digitar */
     outline: none;
 }
 
 .btn-login {
-    background-color: var(--primary-red);
+    background-color: var(--primary-blue); /* Botão de Entrar Azul */
     color: white;
     border: none;
     width: 100%;
@@ -145,7 +164,7 @@ input:focus {
 }
 
 .btn-login:hover {
-    background-color: var(--dark-red);
+    background-color: var(--dark-blue);
 }
 
 /* ============================================================
@@ -159,7 +178,6 @@ input:focus {
     margin-bottom: 50px;
 }
 
-/* Tabela Personalizada */
 .table thead th {
     background-color: var(--light-gray);
     border: none;
@@ -175,7 +193,6 @@ input:focus {
     padding: 15px;
 }
 
-/* Badges de Status */
 .badge {
     padding: 8px 15px;
     border-radius: 30px;
@@ -186,7 +203,7 @@ input:focus {
 .ready { background: #e8f5e9; color: var(--success); }
 .pending { background: #fff3e0; color: #ef6c00; }
 .paid { background: #e3f2fd; color: #1976d2; }
-.unpaid { background: #ffebee; color: var(--primary-red); }
+.unpaid { background: #ffebee; color: #d32f2f; }
 
 /* ============================================================
    5. RESPONSIVIDADE
@@ -194,7 +211,6 @@ input:focus {
 @media (max-width: 768px) {
     .hero-section { text-align: center; height: auto; padding: 100px 0; }
     
-    /* Tabela mobile-friendly */
     .table-responsive table, 
     .table-responsive thead, 
     .table-responsive tbody, 
@@ -219,6 +235,6 @@ input:focus {
         position: absolute;
         left: 15px;
         font-weight: 700;
-        color: var(--primary-red);
+        color: var(--primary-blue);
     }
 }
