@@ -1,9 +1,12 @@
 // ==========================================
-// ARQUIVO: admin.js (CORRIGIDO PARA USO EXTERNO)
+// ARQUIVO: admin.js (ATUALIZADO LG LAB)
 // ==========================================
 
-// COLE AQUI A MESMA URL QUE ESTÁ NO SEU SCRIPT.JS
+// URL da API (Mantida a mesma)
 const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdNPjaNIW7TEWM-rq9UdVh343htO3rb2GL8mVD1PDlaCcz77Q/exec";
+
+// Cor Oficial LG Lab (Azul) para os botões dos alertas
+const BRAND_COLOR = '#21409a'; 
 
 // --- 1. FUNÇÃO DE BUSCAR PACIENTE ---
 async function buscarPaciente() {
@@ -11,7 +14,12 @@ async function buscarPaciente() {
     const btn = document.querySelector('button[onclick="buscarPaciente()"]');
 
     if (!termo) {
-        Swal.fire('Atenção', 'Digite um CPF ou Nome para buscar.', 'warning');
+        Swal.fire({
+            title: 'Atenção',
+            text: 'Digite um CPF ou Nome para buscar.',
+            icon: 'warning',
+            confirmButtonColor: BRAND_COLOR
+        });
         return;
     }
 
@@ -41,7 +49,12 @@ async function buscarPaciente() {
             document.getElementById('buscId').innerText = res.id;
             document.getElementById('resultadoBusca').style.display = 'block';
         } else {
-            Swal.fire('Não encontrado', res.message || 'Paciente não localizado.', 'info');
+            Swal.fire({
+                title: 'Não encontrado',
+                text: res.message || 'Paciente não localizado.',
+                icon: 'info',
+                confirmButtonColor: BRAND_COLOR
+            });
             document.getElementById('resultadoBusca').style.display = 'none';
         }
 
@@ -49,7 +62,12 @@ async function buscarPaciente() {
         console.error(error);
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
-        Swal.fire('Erro', 'Falha de conexão com o servidor.', 'error');
+        Swal.fire({
+            title: 'Erro',
+            text: 'Falha de conexão com o servidor.',
+            icon: 'error',
+            confirmButtonColor: BRAND_COLOR
+        });
     }
 }
 
@@ -86,7 +104,12 @@ async function cadastrarPaciente() {
     const btn = document.getElementById('btnCadastrar');
 
     if (!nome || !cpf) {
-        Swal.fire('Atenção', 'Preencha todos os campos!', 'warning');
+        Swal.fire({
+            title: 'Atenção',
+            text: 'Preencha todos os campos!',
+            icon: 'warning',
+            confirmButtonColor: BRAND_COLOR
+        });
         return;
     }
 
@@ -135,17 +158,27 @@ async function cadastrarPaciente() {
                 title: 'Cadastrado!',
                 text: 'ID Gerado: ' + res.id,
                 timer: 3000,
-                showConfirmButton: true
+                confirmButtonColor: BRAND_COLOR // Botão azul
             });
 
         } else {
-            Swal.fire('Erro', res.message || 'Erro ao cadastrar.', 'error');
+            Swal.fire({
+                title: 'Erro',
+                text: res.message || 'Erro ao cadastrar.',
+                icon: 'error',
+                confirmButtonColor: BRAND_COLOR
+            });
         }
 
     } catch (error) {
         console.error(error);
         if (btn) btn.disabled = false;
-        Swal.fire('Erro Fatal', 'Não foi possível conectar ao servidor.', 'error');
+        Swal.fire({
+            title: 'Erro Fatal',
+            text: 'Não foi possível conectar ao servidor.',
+            icon: 'error',
+            confirmButtonColor: BRAND_COLOR
+        });
     }
 }
 
@@ -156,11 +189,21 @@ async function lancarExame() {
     const btn = document.querySelector('button[onclick="lancarExame()"]');
 
     if (!idPaciente || idPaciente == "0") {
-        Swal.fire('Erro', 'Nenhum paciente selecionado.', 'error');
+        Swal.fire({
+            title: 'Erro',
+            text: 'Nenhum paciente selecionado.',
+            icon: 'error',
+            confirmButtonColor: BRAND_COLOR
+        });
         return;
     }
     if (!nomeExame) {
-        Swal.fire('Atenção', 'Selecione o nome do exame.', 'warning');
+        Swal.fire({
+            title: 'Atenção',
+            text: 'Selecione o nome do exame.',
+            icon: 'warning',
+            confirmButtonColor: BRAND_COLOR
+        });
         return;
     }
 
@@ -185,15 +228,30 @@ async function lancarExame() {
         btn.disabled = false;
 
         if (res.success) {
-            Swal.fire('Sucesso', 'Exame lançado com sucesso!', 'success');
+            Swal.fire({
+                title: 'Sucesso',
+                text: 'Exame lançado com sucesso!',
+                icon: 'success',
+                confirmButtonColor: BRAND_COLOR
+            });
         } else {
-            Swal.fire('Erro', 'Não foi possível salvar o exame.', 'error');
+            Swal.fire({
+                title: 'Erro',
+                text: 'Não foi possível salvar o exame.',
+                icon: 'error',
+                confirmButtonColor: BRAND_COLOR
+            });
         }
 
     } catch (error) {
         console.error(error);
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
-        Swal.fire('Erro', 'Falha de conexão.', 'error');
+        Swal.fire({
+            title: 'Erro',
+            text: 'Falha de conexão.',
+            icon: 'error',
+            confirmButtonColor: BRAND_COLOR
+        });
     }
 }
