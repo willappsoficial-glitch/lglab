@@ -87,7 +87,7 @@ async function carregarExames() {
     const list = document.getElementById('exames-list');
     if (!list) return; // Evita erro se carregar script em outra página
 
-    list.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border text-danger" role="status"></div><p class="mt-2">Buscando seus exames...</p></td></tr>';
+    list.innerHTML = '<tr><td colspan="5" class="text-center py-4"><div class="spinner-border text-primary" role="status"></div><p class="mt-2">Buscando seus exames...</p></td></tr>';
 
     try {
         const response = await fetch(API_URL, {
@@ -156,28 +156,22 @@ function renderizarTabela(exames, elementoTabela) {
             : "background-color: #dc3545 !important; color: white !important;";
 
         // Botões
-        // ... (parte anterior do código)
-
-        // Botões
         if (pagamentoNormalizado === 'pendente') {
-            acao = `<button onclick="pagarPix('${ex.nome}')" class="btn btn-sm btn-danger shadow-sm"><i class="fas fa-qrcode me-1"></i> Pagar</button>`;
+            // Mudei para btn-primary (Azul) para combinar, mas mantive a lógica
+            acao = `<button onclick="pagarPix('${ex.nome}')" class="btn btn-sm btn-primary shadow-sm"><i class="fas fa-qrcode me-1"></i> Pagar</button>`;
         
         } else if (pagamentoNormalizado === 'pago') {
             
-            // AQUI ESTAVA O DETALHE: Adicionamos a verificação do status 'pronto'
-            // O paciente só baixa se tiver link E o status for 'pronto'
+            // REGRA BLINDADA: Pago + Pronto + Link
             if(temLink && statusParaComparar === 'pronto') {
                  acao = `<a href="${ex.link}" target="_blank" class="btn btn-sm btn-success shadow-sm"><i class="fas fa-download me-1"></i> PDF</a>`;
             } else {
-                 // Caso tenha link mas o status não seja pronto, ou não tenha link
                  acao = `<span class="text-muted small"><i class="fas fa-hourglass-half"></i> Aguarde</span>`;
             }
 
         } else {
             acao = `<span class="text-muted small"><i class="fas fa-hourglass-half"></i> Aguarde</span>`;
         }
-        
-        // ... (restante do código)
 
         html += `
             <tr>
@@ -195,7 +189,9 @@ function renderizarTabela(exames, elementoTabela) {
             </tr>`;
     });
     elementoTabela.innerHTML = html;
-}// ======================================================
+}
+
+// ======================================================
 // 3. FUNÇÕES GERAIS (Logout e Pix)
 // ======================================================
 
@@ -231,7 +227,7 @@ function pagarPix(nomeExame) {
             </div>
         `,
         confirmButtonText: 'Já fiz o pagamento',
-        confirmButtonColor: '#cc0000', // Vermelho Vital Lab
+        confirmButtonColor: '#21409a', // AQUI FOI A MUDANÇA (AZUL LG LAB)
         showCancelButton: true,
         cancelButtonText: 'Fechar'
     });
@@ -250,11 +246,3 @@ function copiarPix() {
     btn.innerText = "Copiado!";
     setTimeout(() => { btn.innerText = originalText; }, 2000);
 }
-
-
-
-
-
-
-
-
