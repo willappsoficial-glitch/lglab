@@ -1,0 +1,21 @@
+{
+  "name": "LG Lab - Gestão",
+  "short_name": "LG Lab",
+  "start_url": "./admin.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#21409a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "1000192552.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "1000192552.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
