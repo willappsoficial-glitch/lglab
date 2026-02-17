@@ -1,5 +1,5 @@
 // ==========================================
-// ARQUIVO: admin.js (VERSÃO SEGURA LG LAB)
+// ADMIN.JS ATUALIZADO (MESMA URL)
 // ==========================================
 
 const API_URL = "https://script.google.com/macros/s/AKfycbyVI4pXYIM6GSEAl-TuqKdNPjaNIW7TEWM-rq9UdVh343htO3rb2GL8mVD1PDlaCcz77Q/exec";
@@ -22,12 +22,15 @@ async function buscarPaciente() {
         const response = await fetch(API_URL, {
             method: 'POST',
             body: JSON.stringify({
-                action: 'query_ref', // Alterado de buscarPaciente
-                term_ref: termo     // Alterado de termo
+                action: 'query_ref', 
+                term_ref: termo     
             })
         });
 
-        const res = await response.json();
+        // Parse Seguro
+        const txt = await response.text();
+        const res = JSON.parse(txt);
+
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
 
@@ -41,6 +44,7 @@ async function buscarPaciente() {
             document.getElementById('resultadoBusca').style.display = 'none';
         }
     } catch (error) {
+        console.error(error);
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
         Swal.fire({ title: 'Erro', text: 'Falha de conexão.', icon: 'error', confirmButtonColor: BRAND_COLOR });
@@ -64,13 +68,15 @@ async function cadastrarPaciente() {
         const response = await fetch(API_URL, {
             method: 'POST',
             body: JSON.stringify({
-                action: 'add_entry', // Alterado de cadastrarPaciente
-                entry_name: nome,    // Alterado de nome
-                entry_id: cpf        // Alterado de cpf
+                action: 'add_entry',
+                entry_name: nome,
+                entry_id: cpf 
             })
         });
 
-        const res = await response.json();
+        const txt = await response.text();
+        const res = JSON.parse(txt);
+        
         if (btn) btn.disabled = false;
 
         if (res.success) {
@@ -86,6 +92,7 @@ async function cadastrarPaciente() {
         }
     } catch (error) {
         if (btn) btn.disabled = false;
+        console.error(error);
         Swal.fire({ title: 'Erro', text: 'Erro ao conectar.', icon: 'error', confirmButtonColor: BRAND_COLOR });
     }
 }
@@ -113,13 +120,15 @@ async function lancarExame() {
         const response = await fetch(API_URL, {
             method: 'POST',
             body: JSON.stringify({
-                action: 'save_data', // Alterado de salvarExame
+                action: 'save_data', 
                 id_ref: idPaciente,
                 item_ref: nomeExame
             })
         });
 
-        const res = await response.json();
+        const txt = await response.text();
+        const res = JSON.parse(txt);
+
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
 
@@ -129,5 +138,6 @@ async function lancarExame() {
     } catch (error) {
         btn.innerHTML = textoOriginal;
         btn.disabled = false;
+        console.error(error);
     }
 }
