@@ -9,55 +9,60 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="logolg.png">
 </head>
-<body class="bg-light d-block"> 
+<body class="bg-light"> 
     
-    <nav class="navbar navbar-dark shadow-sm" style="background-color: #21409a;">
+    <nav class="navbar navbar-dark shadow-sm" style="background: var(--primary-blue);">
         <div class="container">
-            <span class="navbar-brand mb-0 h1 fw-bold">
-                <img src="logolg.png" width="30" class="me-2 bg-white rounded p-1">
+            <span class="navbar-brand mb-0 h1 fw-bold d-flex align-items-center">
+                <img src="logolg.png" width="35" class="me-2 bg-white rounded-circle p-1">
                 LG LAB
             </span>
-            <button onclick="logout()" class="btn btn-outline-light btn-sm">Sair <i class="fas fa-sign-out-alt"></i></button>
+            <button onclick="logout()" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                Sair <i class="fas fa-sign-out-alt ms-1"></i>
+            </button>
         </div>
     </nav>
 
     <div class="container mt-5" id="dashboard">
-        <div class="header-dash d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h3 class="fw-bold mb-0">Olá, <span id="client-name" style="color: #21409a;">...</span></h3>
-                <p class="text-muted">Confira abaixo o status dos seus exames.</p>
+        <div class="row mb-4 align-items-end">
+            <div class="col-md-8">
+                <h6 class="text-uppercase text-muted fw-bold small">Bem-vindo(a) de volta</h6>
+                <h3 class="fw-bold mb-0" style="color: var(--primary-blue);">Olá, <span id="client-name">Paciente</span></h3>
+            </div>
+            <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                <span class="badge bg-white text-dark shadow-sm p-2 border">
+                    <i class="fas fa-calendar-alt me-1 text-primary"></i> Seus Resultados
+                </span>
             </div>
         </div>
 
-        <div class="card-exames shadow-sm">
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Exame</th>
-                            <th>Data Coleta</th>
-                            <th>Status</th>
-                            <th>Pagamento</th>
-                            <th class="text-end">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody id="exames-list">
-                        </tbody>
-                </table>
-            </div>
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Nome do Exame</th>
+                        <th>Data Coleta</th>
+                        <th>Status</th>
+                        <th>Pagamento</th>
+                        <th class="text-end">Ação</th>
+                    </tr>
+                </thead>
+                <tbody id="exames-list">
+                </tbody>
+            </table>
         </div>
     </div>
     
     <a href="https://wa.me/5584996106961?text=Ola,%20preciso%20de%20ajuda%20com%20meus%20exames" 
        target="_blank" 
-       style="position:fixed; bottom:20px; right:20px; z-index:9999;">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="Suporte" width="60">
+       class="shadow-lg rounded-circle d-flex align-items-center justify-content-center"
+       style="position:fixed; bottom:25px; right:25px; z-index:9999; width: 60px; height: 60px; background: #25D366; color: white; text-decoration: none;">
+        <i class="fab fa-whatsapp fa-2x"></i>
     </a>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="script.js"></script>
     <script>
-        // Carrega os dados assim que a página abre
         window.onload = carregarExames;
     </script>
 </body>
