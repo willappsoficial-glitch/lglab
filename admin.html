@@ -3,173 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal LG Lab | Gestão Integrada</title>
+    <title>Gestão LG Lab | Painel Administrativo</title>
     
     <link rel="icon" type="image/png" href="logolg.png">
     <link rel="manifest" href="manifest.json">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
     <link rel="stylesheet" href="style.css"> 
-    <link rel="stylesheet" href="admin.css"> 
-
-    <style>
-        body { padding-top: 80px; }
-        
-        .navbar-vital {
-            background-color: #ffffff;
-            border-bottom: 3px solid #21409a; /* Azul LG Lab */
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .nav-link {
-            color: #555;
-            font-weight: 600;
-            margin-right: 15px;
-            transition: 0.3s;
-        }
-        .nav-link:hover {
-            color: #21409a;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-        }
-        .nav-link.active {
-            color: #21409a;
-            background-color: #eef2ff;
-            border-radius: 5px;
-        }
-        .btn-appsheet {
-            background-color: #2c3e50; 
-            color: white !important;
-            border-radius: 20px;
-            padding: 8px 20px;
-        }
-        .btn-appsheet:hover {
-            background-color: #1a252f;
-            transform: translateY(-2px);
-        }
-    </style>
 </head>
-<body class="bg-light">
+<body class="bg-light pt-5 pb-5">
 
     <nav class="navbar navbar-expand-lg navbar-vital fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <img src="logolg.png" alt="Logo" width="40" class="me-2">
                 <div class="d-flex flex-column">
-                    <span class="fw-bold" style="line-height: 1; color: #21409a;">LG LAB</span>
-                    <span style="font-size: 10px; color: #888;">Gestão Integrada</span>
+                    <span class="fw-bold fs-6" style="color: var(--primary-blue);">LG LAB</span>
+                    <span style="font-size: 10px; color: #888;">PAINEL GESTÃO</span>
                 </div>
             </a>
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuVital">
-                <span class="navbar-toggler-icon"></span>
+                <span class="fas fa-bars"></span>
             </button>
-
             <div class="collapse navbar-collapse" id="menuVital">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    
+                <ul class="navbar-nav ms-auto align-items-center gap-2">
                     <li class="nav-item">
                         <a class="nav-link active" href="#"><i class="fas fa-desktop me-1"></i> Recepção</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" href="https://willappsoficial-glitch.github.io/lglab/" target="_blank">
                             <i class="fas fa-globe me-1"></i> Site
                         </a>
                     </li>
-
                     <li class="nav-item">
-                        <a class="nav-link" href="login.html" target="_blank">
-                            <i class="fas fa-user-injured me-1"></i> Área Paciente
+                        <a class="btn btn-sm btn-outline-dark rounded-pill px-3" href="https://www.appsheet.com/start/09719570-45c2-4b4c-8f4c-e6874140030d?platform=desktop#appName=VitalLab-334214448&vss=H4sIAAAAAAAAA6WOzQrCMBCE32XOeYJcxYOIIiheTA8x2UKwTUqTqiXk3d36e1aP8y3f7GScHV22SZsT5CF_0pJGSGSF3diRglSYBZ_60CgIhbVuH3CjjSOfKCoUlEq8CphA5i99-ed_AWc5uNpRP5VNKpc8RT5PGoO3hCLQDkkfG7pvZqkUZnUwQyS75zG_jIgLP7922ttVsNxZ6yZSuQHbfk3TagEAAA==&view=Pacientes" target="_blank">
+                            <i class="fas fa-flask me-1"></i> Sistema Lab
                         </a>
                     </li>
-
-                    <li class="nav-item ms-2">
-                        <a class="nav-link btn-appsheet shadow-sm" href="https://www.appsheet.com/start/09719570-45c2-4b4c-8f4c-e6874140030d?platform=desktop#appName=VitalLab-334214448&vss=H4sIAAAAAAAAA6WOzQrCMBCE32XOeYJcxYOIIiheTA8x2UKwTUqTqiXk3d36e1aP8y3f7GScHV22SZsT5CF_0pJGSGSF3diRglSYBZ_60CgIhbVuH3CjjSOfKCoUlEq8CphA5i99-ed_AWc5uNpRP5VNKpc8RT5PGoO3hCLQDkkfG7pvZqkUZnUwQyS75zG_jIgLP7922ttVsNxZ6yZSuQHbfk3TagEAAA==&view=Pacientes" target="_blank">
-                            <i class="fas fa-flask me-1"></i> Acessar Laboratório
-                        </a>
-                    </li>
-
                 </ul>
             </div>
         </div>
     </nav>
 
-    <div class="container">
-        
+    <div class="container mt-5 pt-3">
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="text-secondary"><i class="fas fa-user-plus me-2"></i>Painel da Recepção</h4>
-            <span class="badge bg-success">Sistema Online</span>
+            <h4 class="fw-bold" style="color: var(--text-main);"><i class="fas fa-user-plus me-2 text-primary"></i>Recepção</h4>
+            <span class="badge bg-success shadow-sm"><i class="fas fa-wifi me-1"></i> Online</span>
         </div>
 
-        <div class="row g-4 justify-content-center">
+        <div class="row g-4">
             
-            <div class="col-md-4">
-                <div class="card admin-card shadow-sm h-100">
-                    <div class="card-header text-white fw-bold" style="background-color: #1a237e;">1. Novo Paciente</div>
-                    <div class="card-body">
+            <div class="col-lg-4">
+                <div class="card admin-card h-100 position-relative">
+                    <div class="admin-header-strip" style="background: var(--primary-blue);"></div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="color: var(--primary-blue);">1. Novo Paciente</h5>
                         <div class="mb-3">
-                            <label>Nome Completo</label>
-                            <input type="text" id="cadNome" class="form-control">
+                            <label class="small text-muted fw-bold">NOME COMPLETO</label>
+                            <input type="text" id="cadNome" class="form-control" placeholder="Digite o nome...">
                         </div>
-                        <div class="mb-3">
-                            <label>CPF (Usuário)</label>
-                            <input type="text" id="cadCpf" class="form-control" maxlength="14" placeholder="Digite apenas números">
+                        <div class="mb-4">
+                            <label class="small text-muted fw-bold">CPF (APENAS NÚMEROS)</label>
+                            <input type="text" id="cadCpf" class="form-control" maxlength="14" placeholder="000.000.000-00">
                         </div>
-                        <button id="btnCadastrar" onclick="cadastrarPaciente()" class="btn w-100 text-white" style="background-color: #21409a;">Cadastrar</button>
-                        
-                        <div id="resultadoCadastro" class="result-box mt-3 text-center" style="display:none;">
-                            <div class="fs-5">User: <strong id="resUser">...</strong></div>
-                            <div class="fs-5">Senha: <strong id="resSenha" class="text-danger">...</strong></div>
-                            <div class="small mt-1">ID: <span id="resId">...</span></div>
-                            <div class="alert alert-success p-1 mt-2 small">
-                                <i class="fas fa-check"></i> Enviado para o Bloco 3!
-                            </div>
+                        <button id="btnCadastrar" onclick="cadastrarPaciente()" class="btn btn-primary w-100 py-2">
+                            <i class="fas fa-save me-2"></i> Cadastrar
+                        </button>
+                        <div id="resultadoCadastro" class="result-box text-center" style="display:none;">
+                            <div class="fs-6 text-muted">Usuário: <strong id="resUser" class="text-dark">...</strong></div>
+                            <div class="fs-6 text-muted">Senha: <strong id="resSenha" class="text-danger">...</strong></div>
+                            <div class="small mt-1 text-muted">ID Interno: <span id="resId">...</span></div>
+                            <div class="alert alert-success p-1 mt-2 small mb-0"><i class="fas fa-check-circle"></i> Dados enviados!</div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="card admin-card shadow-sm h-100" style="border-left-color: #0d6efd;">
-                    <div class="card-header bg-primary text-white fw-bold">2. Buscar Paciente</div>
-                    <div class="card-body">
+            <div class="col-lg-4">
+                <div class="card admin-card h-100 position-relative">
+                    <div class="admin-header-strip" style="background: #0d6efd;"></div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3 text-primary">2. Buscar Paciente</h5>
                         <div class="mb-3">
-                            <label>Nome ou CPF</label>
+                            <label class="small text-muted fw-bold">NOME OU CPF</label>
                             <div class="input-group">
-                                <input type="text" id="buscaTermo" class="form-control" placeholder="Digite...">
+                                <input type="text" id="buscaTermo" class="form-control" placeholder="Pesquisar...">
                                 <button class="btn btn-primary" onclick="buscarPaciente()"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
-
-                        <div id="resultadoBusca" class="result-box mt-3 text-center" style="display:none; border-color: #0d6efd; background-color: #f0f8ff;">
-                            <h6 class="fw-bold text-primary" id="buscNome">...</h6>
-                            <p class="mb-1">CPF: <span id="buscCpf">...</span></p>
-                            <hr>
-                            <div class="d-grid">
-                                <button class="btn btn-sm btn-outline-primary" onclick="usarIdEncontrado()">
-                                    Usar ID: <strong id="buscId">...</strong> <i class="fas fa-arrow-right ms-1"></i>
-                                </button>
-                            </div>
+                        <div id="resultadoBusca" class="result-box text-center" style="display:none; border-color: #0d6efd; background-color: #f0f8ff;">
+                            <h6 class="fw-bold text-primary mb-1" id="buscNome">...</h6>
+                            <p class="mb-2 small text-muted">CPF: <span id="buscCpf">...</span></p>
+                            <button class="btn btn-sm btn-outline-primary w-100" onclick="usarIdEncontrado()">
+                                Usar ID: <strong id="buscId">...</strong> <i class="fas fa-arrow-right ms-1"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="card admin-card shadow-sm h-100" style="border-left-color: #9cca3b;">
-                    <div class="card-header text-white fw-bold" style="background-color: #9cca3b;">3. Lançar Exame</div>
-                    <div class="card-body">
-                        <div class="alert alert-success small p-2 mb-3">
-                            <i class="fas fa-arrow-left"></i> O ID vem do Bloco 1 ou 2.
+            <div class="col-lg-4">
+                <div class="card admin-card h-100 position-relative">
+                    <div class="admin-header-strip" style="background: var(--primary-green);"></div>
+                    <div class="card-body p-4">
+                        <h5 class="fw-bold mb-3" style="color: var(--primary-green);">3. Lançar Exame</h5>
+                        <div class="alert alert-light border small p-2 mb-3 text-muted">
+                            <i class="fas fa-info-circle text-primary"></i> O ID vem do cadastro ou busca.
                         </div>
                         <div class="mb-3">
-                            <label>ID do Paciente</label>
-                            <input type="number" id="exameIdPaciente" class="form-control fw-bold text-center fs-5" placeholder="0" readonly style="background-color: #e8f5e9;">
+                            <label class="small text-muted fw-bold">ID DO PACIENTE</label>
+                            <input type="number" id="exameIdPaciente" class="form-control fw-bold text-center fs-5 text-primary" placeholder="0" readonly>
                         </div>
-                        <div class="mb-3">
-                            <label>Nome do Exame</label>
+                        <div class="mb-4">
+                            <label class="small text-muted fw-bold">SELECIONE O EXAME</label>
                             <select id="exameNome" class="form-select">
                                 <option value="Hemograma Completo">Hemograma Completo</option>
                                 <option value="Glicemia em Jejum">Glicemia em Jejum</option>
@@ -179,19 +126,17 @@
                                 <option value="Outro">Outro</option>
                             </select>
                         </div>
-                        <button onclick="lancarExame()" class="btn w-100 text-white" style="background-color: #9cca3b;">Adicionar Exame</button>
+                        <button onclick="lancarExame()" class="btn w-100 text-white fw-bold" style="background-color: var(--primary-green);">
+                            <i class="fas fa-plus me-2"></i> Adicionar Exame
+                        </button>
                     </div>
                 </div>
             </div>
-
         </div> 
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
     <script src="admin.js"></script>
 </body>
 </html>
-
-
