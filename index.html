@@ -6,29 +6,31 @@
     <title>Laboratório LG Lab | Análises Clínicas</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="logolg.png">
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
+    <nav class="navbar navbar-expand-lg navbar-vital sticky-top">
         <div class="container">
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <img src="logolg.png" alt="Logo LG Lab" width="50" class="me-2">
-                <span class="fw-bold" style="color: #21409a;">LG LAB</span>
+                <img src="logolg.png" alt="Logo LG Lab" width="45" class="me-2">
+                <div class="d-flex flex-column">
+                    <span class="fw-bold fs-5" style="color: var(--primary-blue); line-height: 1;">LG LAB</span>
+                    <span style="font-size: 10px; color: var(--text-muted); letter-spacing: 1px;">ANÁLISES CLÍNICAS</span>
+                </div>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="fas fa-bars text-primary"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item"><a class="nav-link" href="#inicio">Início</a></li>
                     <li class="nav-item"><a class="nav-link" href="#procedimentos">Exames</a></li>
                     <li class="nav-item"><a class="nav-link" href="#contato">Contato</a></li>
-                    <li class="nav-item ms-lg-3">
-                        <a class="btn btn-resultado" href="login.html">
-                            <i class="fas fa-file-medical me-2"></i>Resultados Online
+                    <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                        <a class="btn btn-resultado shadow-sm" href="login.html">
+                            <i class="fas fa-file-medical me-2"></i>Resultados
                         </a>
                     </li>
                 </ul>
@@ -36,77 +38,91 @@
         </div>
     </nav>
 
-    <section id="inicio" class="hero-section text-white d-flex align-items-center">
-        <div class="container text-center text-lg-start">
+    <section id="inicio" class="hero-section">
+        <div class="container">
             <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Confiança e Precisão nos seus <span style="color: #9cca3b;">Resultados</span></h1>
-                    <p class="lead mb-4">O Laboratório LG Lab oferece tecnologia de ponta e atendimento humanizado em Luís Gomes.</p>
-                    <a href="https://wa.me/+5584996106961" class="btn btn-light btn-lg fw-bold" style="color: #21409a;">
-                        <i class="fab fa-whatsapp me-2"></i>Agendar Exame
-                    </a>
+                <div class="col-lg-7">
+                    <span class="badge bg-white text-primary shadow-sm px-3 py-2 mb-3 rounded-pill">
+                        <i class="fas fa-star me-1 text-warning"></i> Referência em Luís Gomes
+                    </span>
+                    <h1 class="display-4 fw-bold mb-4" style="color: var(--text-main);">
+                        Cuidar da sua saúde <br>é a nossa <span style="color: var(--primary-green);">prioridade.</span>
+                    </h1>
+                    <p class="lead text-muted mb-5 w-75">
+                        Tecnologia de ponta, agilidade nos resultados e o atendimento humanizado que você e sua família merecem.
+                    </p>
+                    <div class="d-flex gap-3 flex-column flex-sm-row">
+                        <a href="https://wa.me/+5584996106961" class="btn btn-primary btn-lg px-4">
+                            <i class="fab fa-whatsapp me-2"></i> Agendar Exame
+                        </a>
+                        <a href="login.html" class="btn btn-outline-secondary btn-lg px-4 border-2">
+                            Ver Resultados
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="procedimentos" class="py-5">
-        <div class="container">
+    <section id="procedimentos" class="py-5 bg-white">
+        <div class="container py-5">
             <div class="text-center mb-5">
-                <h2 class="fw-bold" style="color: #21409a;">Nossos Procedimentos</h2>
-                <div class="line mx-auto"></div>
-                <p class="text-muted">Conheça alguns dos principais exames realizados em nossa unidade</p>
+                <h6 class="text-primary fw-bold text-uppercase ls-2">Nossos Serviços</h6>
+                <h2 class="fw-bold mb-3">Exames Realizados</h2>
+                <div class="mx-auto" style="width: 60px; height: 3px; background: var(--primary-green);"></div>
             </div>
+            
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card card-exame h-100 border-0 shadow-sm text-center p-4">
-                        <div class="icon-box mb-3"><i class="fas fa-droplet fa-2x"></i></div>
-                        <h4 style="color: #21409a;">Hematologia</h4>
-                        <p>Hemograma completo, tipagem sanguínea e coagulograma com rapidez.</p>
+                    <div class="card card-exame h-100">
+                        <div class="icon-box"><i class="fas fa-droplet fa-2x"></i></div>
+                        <h4 class="fw-bold mb-3" style="color: var(--primary-blue);">Hematologia</h4>
+                        <p class="text-muted">Análise completa das células sanguíneas com equipamentos automatizados de alta precisão.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card card-exame h-100 border-0 shadow-sm text-center p-4">
-                        <div class="icon-box mb-3"><i class="fas fa-microscope fa-2x"></i></div>
-                        <h4 style="color: #21409a;">Bioquímica</h4>
-                        <p>Glicemia, Colesterol, Triglicerídeos e funções hepáticas/renais.</p>
+                    <div class="card card-exame h-100">
+                        <div class="icon-box"><i class="fas fa-microscope fa-2x"></i></div>
+                        <h4 class="fw-bold mb-3" style="color: var(--primary-blue);">Bioquímica</h4>
+                        <p class="text-muted">Glicemia, Colesterol, Triglicerídeos e perfil lipídico completo para monitoramento da sua saúde.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card card-exame h-100 border-0 shadow-sm text-center p-4">
-                        <div class="icon-box mb-3"><i class="fas fa-vial fa-2x"></i></div>
-                        <h4 style="color: #21409a;">Imunologia</h4>
-                        <p>Testes sorológicos, hormônios e marcadores tumorais de alta precisão.</p>
+                    <div class="card card-exame h-100">
+                        <div class="icon-box"><i class="fas fa-dna fa-2x"></i></div>
+                        <h4 class="fw-bold mb-3" style="color: var(--primary-blue);">Imunologia</h4>
+                        <p class="text-muted">Testes hormonais e sorológicos essenciais para diagnósticos precisos e rápidos.</p>
                     </div>
                 </div>
-                </div>
+            </div>
         </div>
     </section>
 
-    <footer id="contato" class="bg-dark text-white py-4 mt-5">
-    <div class="container text-center">
-        <img src="logolg.jpg" alt="Logo" width="80" class="mb-3 bg-white rounded p-1">
-        <p class="mb-1">Laboratório LG Lab</p>
-        <p class="small text-muted">Luís Gomes - RN</p>
-        
-        <div class="mb-3">
-            <a href="privacidade.html" class="text-white-50 text-decoration-none small mx-2">Política de Privacidade</a>
-            <span class="text-white-50">|</span>
-            <a href="#" class="text-white-50 text-decoration-none small mx-2">Termos de Uso</a>
+    <footer id="contato" class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row gy-4 align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
+                        <img src="logolg.jpg" alt="Logo" width="50" class="rounded-circle me-3 border border-2 border-white">
+                        <div>
+                            <h5 class="mb-0 fw-bold">Laboratório LG Lab</h5>
+                            <small class="text-white-50">Análises Clínicas</small>
+                        </div>
+                    </div>
+                    <p class="text-white-50 mb-0">Luís Gomes - RN | (84) 99610-6961</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white me-3 fs-5 hover-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white fs-5 hover-link"><i class="fab fa-facebook"></i></a>
+                    <div class="mt-3 small text-white-50">
+                        <a href="privacidade.html" class="text-white-50 text-decoration-none">Privacidade</a> &bull;
+                        <span>&copy; 2026 WillWeb Soluções</span>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div class="social-links">
-            <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="text-white"><i class="fab fa-facebook"></i></a>
-        </div>
-        
-        <p class="mt-3" style="font-size: 10px; color: #666;">
-            &copy; 2026 Laboratório LG Lab. Todos os direitos reservados.
-        </p>
-    </div>
-</footer>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
