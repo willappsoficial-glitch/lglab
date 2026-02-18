@@ -80,24 +80,33 @@
                 </div>
             </div>
 
-            <div class="col-lg-4">
-                <div class="card admin-card h-100 position-relative">
-                    <div class="admin-header-strip" style="background: #0d6efd;"></div>
-                    <div class="card-body p-4">
-                        <h5 class="fw-bold mb-3 text-primary">2. Buscar Paciente</h5>
+            <div class="col-md-4">
+                <div class="card admin-card shadow-sm h-100" style="border-left-color: #0d6efd;">
+                    <div class="card-header bg-primary text-white fw-bold">2. Buscar & Financeiro</div>
+                    <div class="card-body">
                         <div class="mb-3">
-                            <label class="small text-muted fw-bold">NOME OU CPF</label>
+                            <label>Nome ou CPF</label>
                             <div class="input-group">
-                                <input type="text" id="buscaTermo" class="form-control" placeholder="Pesquisar...">
+                                <input type="text" id="buscaTermo" class="form-control" placeholder="Digite...">
                                 <button class="btn btn-primary" onclick="buscarPaciente()"><i class="fas fa-search"></i></button>
                             </div>
                         </div>
-                        <div id="resultadoBusca" class="result-box text-center" style="display:none; border-color: #0d6efd; background-color: #f0f8ff;">
-                            <h6 class="fw-bold text-primary mb-1" id="buscNome">...</h6>
-                            <p class="mb-2 small text-muted">CPF: <span id="buscCpf">...</span></p>
-                            <button class="btn btn-sm btn-outline-primary w-100" onclick="usarIdEncontrado()">
-                                Usar ID: <strong id="buscId">...</strong> <i class="fas fa-arrow-right ms-1"></i>
-                            </button>
+
+                        <div id="resultadoBusca" class="result-box mt-3" style="display:none; border-color: #0d6efd; background-color: #f0f8ff;">
+                            <div class="text-center">
+                                <h6 class="fw-bold text-primary mb-1" id="buscNome">...</h6>
+                                <p class="mb-1 small">CPF: <span id="buscCpf">...</span></p>
+                                <button class="btn btn-sm btn-outline-primary mb-2 w-100" onclick="usarIdEncontrado()">
+                                    Usar ID: <strong id="buscId">...</strong> <i class="fas fa-arrow-right ms-1"></i>
+                                </button>
+                            </div>
+
+                            <hr>
+                            
+                            <h6 class="small fw-bold text-muted mb-2"><i class="fas fa-wallet me-1"></i> STATUS FINANCEIRO</h6>
+                            <div id="listaFinanceira" class="small">
+                                <div class="text-center text-muted">Carregando exames...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
